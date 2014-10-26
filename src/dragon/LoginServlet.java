@@ -16,27 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
     public LoginServlet() {
 	super();
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	System.out.println("dragon ok");
-	getServerAndClientInformation(request, response);
+	dragon(request, response);
     }
 
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	dragon(request, response);
+    }
+
+    public void dragon(HttpServletRequest request, HttpServletResponse response) {
 	// 设置返回文本类型
 	response.setContentType("text/html;charset=UTF-8");
 	getServerAndClientInformation(request, response);
@@ -58,15 +50,20 @@ public class LoginServlet extends HttpServlet {
 	else if ("admin".equals(username) && "123".equals(password)) {
 	    msg = "登录成功，欢迎你：" + username;
 	}
-	PrintWriter out = response.getWriter();// 获取输出流，并开始打印以下信息
-	out.println("<HTML>");
-	out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
-	out.println("  <BODY>");
-	out.println(msg);
-	out.println("  </BODY>");
-	out.println("</HTML>");
-	out.flush();
-	out.close();// 关闭输出流
+	PrintWriter out;
+	try {
+	    out = response.getWriter();
+	    out.println("<HTML>");
+	    out.println("  <HEAD><TITLE>A Servlet</TITLE></HEAD>");
+	    out.println("  <BODY>");
+	    out.println(msg);
+	    out.println("  </BODY>");
+	    out.println("</HTML>");
+	    out.flush();
+	    out.close();// 关闭输出流
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
     }
 
     public void getServerAndClientInformation(HttpServletRequest request, HttpServletResponse response) {
